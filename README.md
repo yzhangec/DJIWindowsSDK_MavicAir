@@ -1,5 +1,9 @@
 # DJI Windows SDK
 
+> Change `Sample code/WSDKTest/MainPage.xaml.cs:54` to your ID registered from DJI developer.
+> The one you want to run is WSDKTest.
+> Be careful about concurrency issue.
+
 ## What Is This?
 
 The DJI Windows SDK enables you to automate your DJI Product on a PC. You can control flight, and many subsystems of the product including the camera and gimbal. Using the DJI Windows SDK, create a customized UWP (Universal Windows Platform) app to unlock the full potential of your DJI aerial platform.
