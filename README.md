@@ -1,10 +1,13 @@
 # DJI Windows SDK
+> Quicklink: [Sample Code/WSDKTest/MainPage.xaml.cs](https://github.com/hkustenterprize/WSDK-FPV-HelloWorld/blob/master/Sample%20Code/WSDKTest/MainPage.xaml.cs)  
+> Change `Sample Code/WSDKTest/MainPage.xaml.cs:54` to your ID registered from DJI developer.
+>
+> The one you want to run is WSDKTest.  
+> Be careful about concurrency issues.
 
-> Change `Sample code/WSDKTest/MainPage.xaml.cs:54` to your ID registered from DJI developer.
->
-> The one you want to run is WSDKTest.
->
-> Be careful about concurrency issue.
+Libraries used:
+- ZXing.net: Barcode library.
+- WriteableBitmapEx: Extension methods for WriteableBitmap (Basically some drawing utilities).
 
 ## What Is This?
 
