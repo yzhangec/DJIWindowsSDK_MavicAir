@@ -1,7 +1,9 @@
 # DJI Windows SDK
 
 > Change `Sample code/WSDKTest/MainPage.xaml.cs:54` to your ID registered from DJI developer.
+>
 > The one you want to run is WSDKTest.
+>
 > Be careful about concurrency issue.
 
 ## What Is This?
