@@ -10,16 +10,14 @@
 
     <Grid>
         <Grid x:Name="RootGrid">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0" Padding="5">
-                <TextBlock FontSize="36" Style="{StaticResource TitleTextBlockStyle}"> FPV</TextBlock>
-                <TextBlock Style="{StaticResource BodyTextBlockStyle}" x:Name="result"></TextBlock>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Image x:Name="fpvImage" Stretch="UniformToFill" Visibility="Visible" Grid.Column="0" Margin="0, 10, 0, 0" />
+            <StackPanel Grid.Column="1" Padding="5">
+                <TextBox  x:Name="Textbox" TextWrapping="Wrap" AcceptsReturn="True"></TextBox>
             </StackPanel>
-
-            <Image x:Name="fpvImage" Stretch="UniformToFill" Visibility="Visible" Grid.Row="1" Margin="0, 10, 0, 0" />
         </Grid>
     </Grid>
 </Page>
