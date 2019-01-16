@@ -201,10 +201,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.0.4</Version>
+      <Version>6.2.3</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.0.180916002-prerelease</Version>
+      <Version>2.0.181018003.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

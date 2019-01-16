@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.UI.Xaml.Controls;
 using DJI.WindowsSDK;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Media.Imaging;
@@ -10,6 +10,14 @@ using ZXing.Common;
 using ZXing.Multi.QrCode;
 using Windows.Graphics.Imaging;
 using System.Collections.Generic;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+
 
 // 空白頁項目範本已記錄在 https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x404
 
@@ -52,8 +60,10 @@ namespace WSDKTest
                 videoParser.Initialize();
                 videoParser.SetVideoDataCallack(0, 0, ReceiveDecodedData);
                 DJISDKManager.Instance.VideoFeeder.GetPrimaryVideoFeed(0).VideoDataUpdated += OnVideoPush;
+
+                await DJISDKManager.Instance.ComponentManager.GetFlightAssistantHandler(0, 0).SetObstacleAvoidanceEnabledAsync(new BoolMsg() { value = false });
             };
-            DJISDKManager.Instance.RegisterApp("c863aca3a7eb1736e0a295f4");
+            DJISDKManager.Instance.RegisterApp("e4e094e6d2756bca843fa2b1");
         }
 
         void OnVideoPush(VideoFeed sender, [ReadOnlyArray] ref byte[] bytes)
@@ -158,5 +168,280 @@ namespace WSDKTest
                 VideoSource.Invalidate();
             });
         }
+
+        //private async void TakeOff_Button_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var res = await DJISDKManager.Instance.ComponentManager.GetFlightControllerHandler(0, 0).StartTakeoffAsync();
+        //    var messageDialog = new MessageDialog(String.Format("Start send takeoff command: {0}", res.ToString()));
+        //    await messageDialog.ShowAsync();
+        //}
+
+        //private async void Landing_Button_Click(object sender, RoutedEventArgs e)
+        //{
+        //    //clear joystick values
+        //    DJISDKManager.Instance.VirtualRemoteController.UpdateJoystickValue(0, 0, 0, 0);
+        //    var res = await DJISDKManager.Instance.ComponentManager.GetFlightControllerHandler(0, 0).StartAutoLandingAsync();
+        //    var messageDialog = new MessageDialog(String.Format("Start send landing command: {0}", res.ToString()));
+        //    await messageDialog.ShowAsync();
+        //}
+
+        private void Stop_Button_Click(object sender, RoutedEventArgs e)
+        {
+            var throttle = 0;
+            var roll = 0;
+            var pitch = 0;
+            var yaw = 0;
+
+            DJISDKManager.Instance.VirtualRemoteController.UpdateJoystickValue(throttle, roll, pitch, yaw);
+        }
+
+        //private void ThrottleUp_Button_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var throttle = 0.5f;
+        //    var roll = 0;
+        //    var pitch = 0;
+        //    var yaw = 0;
+
+        //    DJISDKManager.Instance.VirtualRemoteController.UpdateJoystickValue(throttle, roll, pitch, yaw);
+        //}
+
+        //private void ThrottleDown_Button_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var throttle = -0.5f;
+        //    var roll = 0;
+        //    var pitch = 0;
+        //    var yaw = 0;
+
+        //    DJISDKManager.Instance.VirtualRemoteController.UpdateJoystickValue(throttle, roll, pitch, yaw);
+        //}
+
+        //private void YawLeft_Button_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var throttle = 0;
+        //    var roll = 0;
+        //    var pitch = 0;
+        //    var yaw = -0.5f;
+
+        //    DJISDKManager.Instance.VirtualRemoteController.UpdateJoystickValue(throttle, roll, pitch, yaw);
+        //}
+
+
+        //private void YawRight_Button_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var throttle = 0;
+        //    var roll = 0;
+        //    var pitch = 0;
+        //    var yaw = 0.5f;
+
+        //    DJISDKManager.Instance.VirtualRemoteController.UpdateJoystickValue(throttle, roll, pitch, yaw);
+        //}
+
+        //private void RollLeft_Button_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var throttle = 0;
+        //    var roll = -0.5f;
+        //    var pitch = 0;
+        //    var yaw = 0;
+
+        //    DJISDKManager.Instance.VirtualRemoteController.UpdateJoystickValue(throttle, roll, pitch, yaw);
+        //}
+
+        //private void RollRight_Button_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var throttle = 0;
+        //    var roll = 0.5f;
+        //    var pitch = 0;
+        //    var yaw = 0;
+
+        //    DJISDKManager.Instance.VirtualRemoteController.UpdateJoystickValue(throttle, roll, pitch, yaw);
+        //}
+
+        //private void PitchUp_Button_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var throttle = 0;
+        //    var roll = 0;
+        //    var pitch = 0.5f;
+        //    var yaw = 0;
+
+        //    DJISDKManager.Instance.VirtualRemoteController.UpdateJoystickValue(throttle, roll, pitch, yaw);
+        //}
+
+        private float throttle = 0;
+        private float roll = 0;
+        private float pitch = 0;
+        private float yaw = 0;
+
+        private async void Grid_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Windows.System.VirtualKey.W:
+                case Windows.System.VirtualKey.S:
+                    {
+                        throttle = 0;
+                        break;
+                    }
+                case Windows.System.VirtualKey.A:
+                case Windows.System.VirtualKey.D:
+                    {
+                        yaw = 0;
+                        break;
+                    }
+                case Windows.System.VirtualKey.I:
+                case Windows.System.VirtualKey.K:
+                    {
+                        pitch = 0;
+                        break;
+                    }
+                case Windows.System.VirtualKey.J:
+                case Windows.System.VirtualKey.L:
+                    {
+                        roll = 0;
+                        break;
+                    }
+                case Windows.System.VirtualKey.G:
+                    {
+                        var res = await DJISDKManager.Instance.ComponentManager.GetFlightControllerHandler(0, 0).StartTakeoffAsync();
+                        break;
+                    }
+                case Windows.System.VirtualKey.H:
+                    {
+                        var res = await DJISDKManager.Instance.ComponentManager.GetFlightControllerHandler(0, 0).StartAutoLandingAsync();
+                        break;
+                    }
+                
+            }
+
+            DJISDKManager.Instance.VirtualRemoteController.UpdateJoystickValue(throttle, yaw, pitch, roll);
+        }
+
+        private async void Grid_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Windows.System.VirtualKey.W:
+                    {
+                        throttle += 0.02f;
+                        if (throttle > 0.5f)
+                            throttle = 0.5f;
+                        break;
+                    }
+                case Windows.System.VirtualKey.S:
+                    {
+                        throttle -= 0.02f;
+                        if (throttle < -0.5f)
+                            throttle = -0.5f;
+                        break;
+                    }
+                case Windows.System.VirtualKey.A:
+                    {
+                        yaw -= 0.05f;
+                        if (yaw > 0.5f)
+                            yaw = 0.5f;
+                        break;
+                    }
+                case Windows.System.VirtualKey.D:
+                    {
+                        yaw += 0.05f;
+                        if (yaw < -0.5f)
+                            yaw = -0.5f;
+                        break;
+                    }
+                case Windows.System.VirtualKey.I:
+                    {
+                        pitch += 0.05f;
+                        if (pitch > 0.5)
+                            pitch = 0.5f;
+                        break;
+                    }
+                case Windows.System.VirtualKey.K:
+                    {
+                        pitch -= 0.05f;
+                        if (pitch < -0.5f)
+                            pitch = -0.5f;
+                        break;
+                    }
+                case Windows.System.VirtualKey.J:
+                    {
+                        roll -= 0.05f;
+                        if (roll < -0.5f)
+                            roll = -0.5f;
+                        break;
+                    }
+                case Windows.System.VirtualKey.L:
+                    {
+                        roll += 0.05f;
+                        if (roll > 0.5)
+                            roll = 0.5f;
+                        break;
+                    }
+                case Windows.System.VirtualKey.P:
+                    {
+                        GimbalAngleRotation rotation = new GimbalAngleRotation()
+                        {
+                            mode = GimbalAngleRotationMode.RELATIVE_ANGLE,
+                            pitch = 45,
+                            roll = 45,
+                            yaw = 45,
+                            pitchIgnored = false,
+                            yawIgnored = false,
+                            rollIgnored = false,
+                            duration = 0.5
+                        };
+
+                        System.Diagnostics.Debug.Write("pitch = 45\n");
+
+                        // Defined somewhere else
+                        var gimbalHandler = DJISDKManager.Instance.ComponentManager.GetGimbalHandler(0, 0);
+
+                        // In my control method
+                        var gimbalRotation = new GimbalAngleRotation();
+                        gimbalRotation.pitch = 45;
+                        gimbalRotation.pitchIgnored = false;
+                        gimbalRotation.duration = 5;
+                        await gimbalHandler.RotateByAngleAsync(gimbalRotation);
+
+                        //await DJISDKManager.Instance.ComponentManager.GetGimbalHandler(0,0).RotateByAngleAsync(rotation);
+
+                        break;
+                    }
+            }
+
+            DJISDKManager.Instance.VirtualRemoteController.UpdateJoystickValue(throttle, yaw, pitch, roll);
+        }
+
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            throttle = 0;
+            yaw = 0;
+            pitch = 0;
+
+            yaw = 0.5f;
+
+            DJISDKManager.Instance.VirtualRemoteController.UpdateJoystickValue(throttle, yaw, pitch, roll);
+
+            await Task.Delay(5000);
+
+            yaw = -0.5f;
+            DJISDKManager.Instance.VirtualRemoteController.UpdateJoystickValue(throttle, yaw, pitch, roll);
+
+            await Task.Delay(5000);
+
+            yaw = 0;
+
+            DJISDKManager.Instance.VirtualRemoteController.UpdateJoystickValue(throttle, yaw, pitch, roll);
+        }
+
+        //private void PitchDown_Button_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var throttle = 0;
+        //    var roll = 0;
+        //    var pitch = -0.5f;
+        //    var yaw = 0;
+
+        //    DJISDKManager.Instance.VirtualRemoteController.UpdateJoystickValue(throttle, roll, pitch, yaw);
+        //}
+
     }
 }

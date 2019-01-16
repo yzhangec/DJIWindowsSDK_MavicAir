@@ -1,0 +1,2 @@
+﻿  DJIVideoParser.vcxproj -> C:\Users\eason\Desktop\ws\WSDK-FPV-HelloWorld\Sample Code\Debug\DJIVideoParser\DJIVideoParser.dll
+C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\Microsoft\VisualStudio\v15.0\AppxPackage\Microsoft.AppXPackage.Targets(1145,5): warning APPX1503: The project contains 1 item(s) that represent the app manifest: ..\djiuwpsample\package.appxmanifest. App manifests that are not used to produce an app package will be ignored.

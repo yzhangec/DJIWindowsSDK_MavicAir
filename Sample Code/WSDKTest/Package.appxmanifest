@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="com.wsdk.sample" Publisher="CN=johnl" Version="1.0.0.0" />
+  <Identity Name="com.dji.wsdkdemo" Publisher="CN=johnl" Version="1.0.0.0" />
   <mp:PhoneIdentity PhoneProductId="346f942f-641a-4113-b936-dad94ac0bae0" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>WSDKTest</DisplayName>
