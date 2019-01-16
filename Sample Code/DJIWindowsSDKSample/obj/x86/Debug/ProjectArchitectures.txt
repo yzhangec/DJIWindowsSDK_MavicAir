@@ -1,2 +1,0 @@
-C:\Users\eason\Desktop\ws\WSDK-FPV-HelloWorld\Sample Code\DJIVideoParser\DJIVideoParser.vcxproj;x86
-C:\Users\eason\Desktop\ws\WSDK-FPV-HelloWorld\Sample Code\DJIWindowsSDKSample\DJIWindowsSDKSample.csproj;x86

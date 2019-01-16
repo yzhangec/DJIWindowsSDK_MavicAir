@@ -62,6 +62,12 @@ namespace WSDKTest
                 DJISDKManager.Instance.VideoFeeder.GetPrimaryVideoFeed(0).VideoDataUpdated += OnVideoPush;
 
                 await DJISDKManager.Instance.ComponentManager.GetFlightAssistantHandler(0, 0).SetObstacleAvoidanceEnabledAsync(new BoolMsg() { value = false });
+
+
+                await Task.Delay(5000);
+                GimbalResetCommandMsg resetMsg = new GimbalResetCommandMsg() { value = GimbalResetCommand.UNKNOWN };
+
+                await DJISDKManager.Instance.ComponentManager.GetGimbalHandler(0, 0).ResetGimbalAsync(resetMsg);
             };
             DJISDKManager.Instance.RegisterApp("e4e094e6d2756bca843fa2b1");
         }
@@ -375,6 +381,41 @@ namespace WSDKTest
                             roll = 0.5f;
                         break;
                     }
+                case Windows.System.VirtualKey.Number0:
+                    {
+                        GimbalAngleRotation rotation = new GimbalAngleRotation()
+                        {
+                            mode = GimbalAngleRotationMode.RELATIVE_ANGLE,
+                            pitch = 45,
+                            roll = 45,
+                            yaw = 45,
+                            pitchIgnored = false,
+                            yawIgnored = false,
+                            rollIgnored = false,
+                            duration = 0.5
+                        };
+
+                        System.Diagnostics.Debug.Write("pitch = 45\n");
+
+                        // Defined somewhere else
+                        var gimbalHandler = DJISDKManager.Instance.ComponentManager.GetGimbalHandler(0, 0);
+
+                        //angle
+                        //var gimbalRotation = new GimbalAngleRotation();
+                        //gimbalRotation.pitch = 45;
+                        //gimbalRotation.pitchIgnored = false;
+                        //gimbalRotation.duration = 5;
+                        //await gimbalHandler.RotateByAngleAsync(gimbalRotation);
+
+                        //Speed
+                        var gimbalRotation_speed = new GimbalSpeedRotation();
+                        gimbalRotation_speed.pitch = 10;
+                        await gimbalHandler.RotateBySpeedAsync(gimbalRotation_speed);
+
+                        //await DJISDKManager.Instance.ComponentManager.GetGimbalHandler(0,0).RotateByAngleAsync(rotation);
+
+                        break;
+                    }
                 case Windows.System.VirtualKey.P:
                     {
                         GimbalAngleRotation rotation = new GimbalAngleRotation()
@@ -394,12 +435,17 @@ namespace WSDKTest
                         // Defined somewhere else
                         var gimbalHandler = DJISDKManager.Instance.ComponentManager.GetGimbalHandler(0, 0);
 
-                        // In my control method
-                        var gimbalRotation = new GimbalAngleRotation();
-                        gimbalRotation.pitch = 45;
-                        gimbalRotation.pitchIgnored = false;
-                        gimbalRotation.duration = 5;
-                        await gimbalHandler.RotateByAngleAsync(gimbalRotation);
+                        //angle
+                        //var gimbalRotation = new GimbalAngleRotation();
+                        //gimbalRotation.pitch = 45;
+                        //gimbalRotation.pitchIgnored = false;
+                        //gimbalRotation.duration = 5;
+                        //await gimbalHandler.RotateByAngleAsync(gimbalRotation);
+
+                        //Speed
+                        var gimbalRotation_speed = new GimbalSpeedRotation();
+                        gimbalRotation_speed.pitch = -10;
+                        await gimbalHandler.RotateBySpeedAsync(gimbalRotation_speed);
 
                         //await DJISDKManager.Instance.ComponentManager.GetGimbalHandler(0,0).RotateByAngleAsync(rotation);
 
